@@ -1,0 +1,78 @@
+/* --- File: styles.css --- */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f5f7fa;
+    color: #1a1a1a;
+    margin: 0;
+    padding: 0;
+}
+
+/* Limit the max-width of the main content */
+[data-testid="stAppViewContainer"] > .main {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Header styling */
+.header {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 4px;              /* Minimal space between logo and title */
+    margin-bottom: 4px;     /* Reduced vertical spacing below header */
+    padding-left: 4px;      /* Compact padding on left */
+    padding-top: 4px;       /* Compact padding on top */
+    padding-bottom: 0;      /* Removes unwanted space below */
+}
+
+/* Logo image */
+.header img {
+    width: 224px;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Title text */
+h1 {
+    font-size: 1.8rem;
+    margin: 0;
+    padding: 0;
+    color: #1a2b47;
+}
+
+/* Divider */
+hr {
+    border: none;
+    height: 2px;
+    background: #20B2AA;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* Button styling */
+button {
+    background-color: #20B2AA;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background-color: #178B83;
+}
+
+/* Form input styles */
+select, input[type="text"], .stTextInput input {
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    width: 100%;
+}
