@@ -9,7 +9,7 @@ import os
 from dotenv import load_dotenv
 import base64
 import openai
-from openai.error import AuthenticationError
+#from openai.error import AuthenticationError
 
 # --- Setup ---
 st.set_page_config(page_title="MoodMeal – AI-Powered Recipe & Mood Recommender 🍽", page_icon="🥗", layout="wide", initial_sidebar_state="collapsed")
