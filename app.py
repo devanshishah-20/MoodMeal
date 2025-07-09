@@ -14,7 +14,7 @@ from openai.error import AuthenticationError
 # --- Setup ---
 st.set_page_config(page_title="MoodMeal – AI-Powered Recipe & Mood Recommender 🍽", page_icon="🥗", layout="wide", initial_sidebar_state="collapsed")
 load_dotenv()
-client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # --- Custom DepthwiseConv2D for model loading ---
 class CustomDepthwiseConv2D(DepthwiseConv2D):
