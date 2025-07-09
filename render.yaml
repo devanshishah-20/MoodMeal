@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: moodmeal
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: streamlit run app.py
+    runtime: python-3.10
