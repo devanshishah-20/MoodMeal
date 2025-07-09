@@ -8,21 +8,19 @@ from recipes import recipes
 import os
 from dotenv import load_dotenv
 import base64
-from openai import OpenAI
-from openai._exceptions import AuthenticationError
+import openai
+from openai.error import AuthenticationError
 
 # --- Setup ---
 st.set_page_config(page_title="MoodMeal – AI-Powered Recipe & Mood Recommender 🍽", page_icon="🥗", layout="wide", initial_sidebar_state="collapsed")
 load_dotenv()
-
-# Create OpenAI client
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # --- Custom DepthwiseConv2D for model loading ---
 class CustomDepthwiseConv2D(DepthwiseConv2D):
-    def _init_(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         kwargs.pop('groups', None)
-        super()._init_(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     @classmethod
     def from_config(cls, config):
@@ -107,7 +105,7 @@ if option == "📷 Detect Mood Using Webcam":
                 if recommended:
                     st.subheader("🍽 Recommended Recipes:")
                     for recipe in recommended:
-                        st.markdown(f"{recipe['name']}\n\n{recipe['instructions']}")
+                        st.markdown(f"**{recipe['name']}**\n\n{recipe['instructions']}")
                 else:
                     st.warning("No recipes found.")
 
@@ -131,7 +129,7 @@ elif option == "🖼 Upload an Image":
                 if recommended:
                     st.subheader("🍽 Recommended Recipes:")
                     for recipe in recommended:
-                        st.markdown(f"{recipe['name']}\n\n{recipe['instructions']}")
+                        st.markdown(f"**{recipe['name']}**\n\n{recipe['instructions']}")
                 else:
                     st.warning("No recipes found.")
 
@@ -148,7 +146,7 @@ elif option == "🌐 Choose Manually":
             if recommended:
                 st.subheader(f"🍽 Recipes for {mood} Mood and {food_choice} Food:")
                 for recipe in recommended:
-                    st.markdown(f"{recipe['name']}\n\n{recipe['instructions']}")
+                    st.markdown(f"**{recipe['name']}**\n\n{recipe['instructions']}")
             else:
                 st.warning("No recipes found.")
 
@@ -163,7 +161,7 @@ elif option == "🤖 AI-Based Mood Recipe Suggestion":
         else:
             with st.spinner("Thinking of a recipe for you..."):
                 try:
-                    response = client.chat.completions.create(
+                    response = openai.ChatCompletion.create(
                         model="gpt-3.5-turbo",
                         messages=[
                             {"role": "system", "content": (
@@ -180,14 +178,14 @@ elif option == "🤖 AI-Based Mood Recipe Suggestion":
                         max_tokens=300,
                         temperature=0.7
                     )
-                    suggestion = response.choices[0].message.content.strip()
+                    suggestion = response['choices'][0]['message']['content'].strip()
                     if "Can't suggest" in suggestion:
                         st.info(suggestion)
                     else:
                         st.success("Here's a recipe for you:")
                         st.markdown(suggestion)
                 except AuthenticationError:
-                    st.error("OpenAI API Key is invalid or expired.")
+                    st.error("OpenAI API Key is invalid or missing.")
                 except Exception as e:
                     st.error(f"An unexpected error occurred: {e}")
 
